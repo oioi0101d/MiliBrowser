@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171923">
+<title>Mili Browser 🐱</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#171923;color:#fff;font-family:Arial,sans-serif}
+header{background:#222536;padding:10px;position:sticky;top:0;z-index:2}
+.brand{font-size:19px;font-weight:bold;padding:7px 5px 12px}
+.brand span{color:#a78bfa}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}
+.tab{background:#34384b;padding:10px 12px;border-radius:12px;white-space:nowrap;cursor:pointer}
+.tab.active{background:#171923}
+.tab button{background:none;padding:0 0 0 8px;width:auto;height:auto}
+.controls{display:flex;align-items:center;gap:5px}
+button{border:0;background:#34384b;color:white;border-radius:50%;width:37px;height:37px;font-size:19px;flex-shrink:0;cursor:pointer}
+input{min-width:0;flex:1;border:0;outline:none;border-radius:24px;padding:12px;background:#34384b;color:white;font-size:14px}
+main{padding:20px 14px;text-align:center;min-height:75vh}
+.home{padding-top:13vh}
+.cat{font-size:70px}
+h1{font-size:34px;margin:10px 0}
+h1 span{color:#a78bfa}
+.subtitle{color:#aeb4c7}
+.search{display:flex;gap:8px;max-width:600px;margin:28px auto}
+.search button{border-radius:25px;width:auto;padding:0 18px;background:#8b5cf6;font-size:14px}
+.shortcuts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:25px auto}
+.shortcut{background:#282c3e;color:white;text-decoration:none;padding:17px 8px;border-radius:16px;width:90px}
+.shortcut div{font-size:27px}
+.shortcut p{font-size:13px;margin-bottom:0}
+.note{color:#aeb4c7;font-size:12px;line-height:1.6}
+.result{margin:20px auto;max-width:700px;background:#222536;padding:18px;border-radius:16px;overflow-wrap:anywhere}
+.result a{color:#c4b5fd}
+iframe{width:100%;height:65vh;background:white;border:0;border-radius:12px;margin-top:12px}
+footer{color:#aeb4c7;font-size:12px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">🐱 Mili <span>Browser</span></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="controls">
+    <button onclick="back()" title="Voltar">‹</button>
+    <button onclick="forward()" title="Avançar">›</button>
+    <button onclick="reloadPage()" title="Atualizar">↻</button>
+    <input id="address" placeholder="Pesquisar ou digitar endereço"
+      onkeydown="if(event.key==='Enter')navigate(this.value)">
+    <button onclick="newTab()" title="Nova aba">＋</button>
+    <button onclick="bookmark()" title="Favoritar">☆</button>
+  </div>
+</header>
+
+<main id="page"></main>
+<footer>Mili Browser 🐱 · Seu cantinho na internet</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let tabs = [{
+  title:"Início", url:"",
+  history:[], pos:-1
+}];
+let active = 0;
+
+let favorites = [];
+try {
+  favorites = JSON.parse(localStorage.getItem("miliFavorites") || "[]");
+} catch(e) {}
+
+function renderTabs(){
+  $("tabs").innerHTML = "";
+  tabs.forEach((t,i)=>{
+    const el = document.createElement("div");
+    el.className = "tab" + (i===active ? " active":"");
+    el.textContent = t.title;
+    el.onclick = ()=>switchTab(i);
+
+    const close = document.createElement("button");
+    close.textContent = "×";
+    close.title = "Fechar aba";
+    close.onclick = e=>{
+      e.stopPropagation();
+      closeTab(i);
+    };
+    el.appendChild(close);
+    $("tabs").appendChild(el);
+  });
+}
+
+function newTab(){
+  tabs.push({title:"Nova aba",url:"",history:[],pos:-1});
+  active = tabs.length-1;
+  renderTabs();
+  home();
+}
+
+function switchTab(i){
+  active = i;
+  renderTabs();
+  showCurrent();
+}
+
+function closeTab(i){
+  tabs.splice(i,1);
+  if(!tabs.length)
+    tabs.push({title:"Início",url:"",history:[],pos:-1});
+  active = Math.min(active,tabs.length-1);
+  renderTabs();
+  showCurrent();
+}
+
+function home(){
+  $("address").value = "";
+  $("page").innerHTML = `
+    <div class="home">
+      <div class="cat">🐱</div>
+      <h1>Mili <span>Browser</span></h1>
+      <p class="subtitle">Explore a internet do seu jeito!</p>
+      <div class="search">
+        <input id="homeSearch" placeholder="O que vamos pesquisar?"
+          onkeydown="if(event.key==='Enter')navigate(this.value)">
+        <button onclick="navigate($('homeSearch').value)">Pesquisar</button>
+      </div>
+      <div class="shortcuts">
+        <a class="shortcut" href="https://www.google.com/" target="_blank" rel="noopener">
+          <div>🔎</div><p>Google</p>
+        </a>
+        <a class="shortcut" href="https://www.youtube.com/" target="_blank" rel="noopener">
+          <div>▶️</div><p>YouTube</p>
+        </a>
+        <a class="shortcut" href="https://www.wikipedia.org/" target="_blank" rel="noopener">
+          <div>📚</div><p>Wikipedia</p>
+        </a>
+        <a class="shortcut" href="https://github.com/" target="_blank" rel="noopener">
+          <div>💻</div><p>GitHub</p>
+        </a>
+      </div>
+      <div id="favList"></div>
+      <p class="note">Digite uma pesquisa ou um endereço na barra acima.<br>
+      Alguns sites não permitem ser exibidos dentro de outros sites.</p>
+    </div>`;
+  renderFavorites();
+}
+
+function navigate(value,record=true){
+  value = value.trim();
+  if(!value) return;
+
+  let url;
+  if(/^https?:\/\//i.test(value)){
+    url = value;
+  } else if(/^[^\s]+\.[^\s]+$/.test(value)){
+    url = "https://" + value;
+  } else {
+    url = "https://www.google.com/search?q="+encodeURIComponent(value);
+  }
+
+  if(!/^https?:\/\//i.test(url)) return;
+
+  const t = tabs[active];
+  if(record){
+    t.history = t.history.slice(0,t.pos+1);
+    t.history.push(url);
+    t.pos = t.history.length-1;
+  }
+
+  t.url = url;
+  t.title = value.length>18 ? value.slice(0,18)+"…" : value;
+  renderTabs();
+  showPage(url);
+}
+
+function showPage(url){
+  $("address").value = url;
+  $("page").innerHTML = `
+    <div class="result">
+      <h3>🌐 Abrir página</h3>
+      <p id="currentUrl"></p>
+      <a id="openLink" target="_blank" rel="noopener noreferrer">
+        Abrir este site em uma nova aba do navegador
+      </a>
+      <p class="note">Se a página abaixo não carregar, o site pode bloquear
+      a exibição incorporada. Use o link para abri-lo fora do Mili Browser.</p>
+    </div>
+    <iframe title="Página da internet" referrerpolicy="no-referrer"></iframe>`;
+
+  $("currentUrl").textContent = url;
+  $("openLink").href = url;
+
+  const frame = $("page").querySelector("iframe");
+  frame.src = url;
+  frame.onerror = ()=>{
+    // Alguns bloqueios não são detectáveis pelo navegador.
+  };
+}
+
+function showCurrent(){
+  const t = tabs[active];
+  if(t.url) showPage(t.url);
+  else home();
+}
+
+function back(){
+  const t = tabs[active];
+  if(t.pos>0){
+    t.pos--;
+    t.url = t.history[t.pos];
+    showPage(t.url);
+  } else if(!t.url) {
+    home();
+  }
+}
+
+function forward(){
+  const t = tabs[active];
+  if(t.pos<t.history.length-1){
+    t.pos++;
+    t.url = t.history[t.pos];
+    showPage(t.url);
+  }
+}
+
+function reloadPage(){
+  const t = tabs[active];
+  if(t.url) showPage(t.url);
+  else home();
+}
+
+function bookmark(){
+  const url = tabs[active].url;
+  if(!url){
+    alert("Abra um site antes de favoritar!");
+    return;
+  }
+  if(!favorites.includes(url)) favorites.push(url);
+  try {
+    localStorage.setItem("miliFavorites",JSON.stringify(favorites));
+  } catch(e) {}
+  renderFavorites();
+  alert("⭐ Favorito salvo!");
+}
+
+function renderFavorites(){
+  const box = $("favList");
+  if(!box) return;
+  box.innerHTML = "";
+  if(!favorites.length) return;
+
+  const title = document.createElement("h3");
+  title.textContent = "⭐ Seus favoritos";
+  box.appendChild(title);
+
+  favorites.forEach(url=>{
+    const row = document.createElement("div");
+    row.className = "result";
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.textContent = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    const remove = document.createElement("button");
+    remove.textContent = "×";
+    remove.title = "Remover favorito";
+    remove.onclick = ()=>{
+      favorites = favorites.filter(f=>f!==url);
+      try {
+        localStorage.setItem("miliFavorites",JSON.stringify(favorites));
+      } catch(e) {}
+      renderFavorites();
+    };
+
+    row.append(link,remove);
+    box.appendChild(row);
+  });
+}
+
+renderTabs();
+home();
+</script>
+</body>
+</html>
