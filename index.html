@@ -6,579 +6,362 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#080D14">
 <title>Mili Browser 🐱</title>
-
 <style>
 :root{
- --black:#080D14;
- --dark:#111D2A;
- --panel:#142333;
- --cyan:#00D9FF;
- --white:#FFFFFF;
- --muted:#A8B8C8;
+--bg:#080D14;--panel:#111D2A;--card:#172738;
+--cyan:#00D9FF;--white:#fff;--muted:#9CB0C2;
 }
 *{box-sizing:border-box}
-body{
- margin:0;
- background:var(--black);
- color:var(--white);
- font-family:Arial,sans-serif;
-}
-header{
- background:#0C1722;
- padding:12px;
- border-bottom:1px solid #173448;
- position:sticky;
- top:0;
- z-index:5;
-}
-.brand{
- display:flex;
- align-items:center;
- gap:10px;
- font-size:21px;
- font-weight:bold;
- padding:5px 3px 13px;
-}
-.logo{
- background:var(--cyan);
- color:var(--black);
- width:43px;
- height:43px;
- border-radius:13px;
- display:grid;
- place-items:center;
- font-size:25px;
- box-shadow:0 0 15px #00d9ff55;
-}
+body{margin:0;background:var(--bg);color:white;font-family:Arial}
+header{background:#0C1722;padding:12px;position:sticky;top:0;z-index:5;border-bottom:1px solid #244052}
+.brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:bold;padding-bottom:12px}
+.logo{background:var(--cyan);color:#080D14;padding:9px;border-radius:12px;font-size:25px}
 .brand span{color:var(--cyan)}
-.tabs{
- display:flex;
- gap:7px;
- overflow-x:auto;
- margin-bottom:12px;
-}
-.tab{
- background:var(--panel);
- padding:11px;
- border-radius:10px;
- white-space:nowrap;
- cursor:pointer;
- font-size:13px;
- border:1px solid transparent;
-}
-.tab.active{
- background:var(--black);
- border-color:var(--cyan);
-}
-.tab button{
- background:none;
- color:var(--muted);
- border:0;
- padding-left:8px;
- font-size:17px;
-}
-.controls{
- display:flex;
- gap:6px;
- align-items:center;
-}
-button{
- background:var(--panel);
- color:white;
- border:1px solid #263D50;
- width:38px;
- height:38px;
- border-radius:50%;
- font-size:19px;
- cursor:pointer;
- flex-shrink:0;
-}
-button:active{background:#006d83}
-input{
- flex:1;
- min-width:0;
- padding:13px;
- border:1px solid #294458;
- border-radius:25px;
- background:#142333;
- color:white;
- outline:none;
- font-size:14px;
-}
-input:focus{
- border-color:var(--cyan);
- box-shadow:0 0 8px #00d9ff44;
-}
-main{
- padding:18px;
- min-height:80vh;
- text-align:center;
-}
-.home{padding-top:9vh}
-.cat{
- font-size:72px;
- filter:drop-shadow(0 0 12px #00d9ff66);
-}
-h1{
- font-size:35px;
- margin:10px;
-}
+.tabs{display:flex;gap:7px;overflow-x:auto;margin-bottom:10px}
+.tab{background:var(--card);padding:10px;border-radius:10px;white-space:nowrap;font-size:13px;cursor:pointer}
+.tab.active{border:1px solid var(--cyan);background:var(--bg)}
+.tab button{background:none;border:0;color:white;width:auto;height:auto}
+.controls{display:flex;gap:5px;align-items:center}
+button{background:var(--card);color:white;border:1px solid #294459;border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;flex-shrink:0}
+input{min-width:0;flex:1;padding:12px;border:1px solid #294459;border-radius:25px;background:var(--card);color:white;outline:none}
+input:focus{border-color:var(--cyan)}
+main{padding:16px;min-height:80vh}
+.home{text-align:center;padding-top:8vh}
+.cat{font-size:65px}
+h1{font-size:34px;margin:8px}
 h1 span{color:var(--cyan)}
-.subtitle{color:var(--muted)}
-.search{
- display:flex;
- gap:8px;
- max-width:600px;
- margin:28px auto;
-}
-.search button{
- background:var(--cyan);
- color:var(--black);
- width:auto;
- padding:0 20px;
- border-radius:25px;
- font-size:14px;
- font-weight:bold;
- border:0;
-}
-.shortcuts{
- display:flex;
- justify-content:center;
- flex-wrap:wrap;
- gap:12px;
- margin:30px auto;
-}
-.shortcut{
- background:var(--dark);
- color:white;
- text-decoration:none;
- width:90px;
- padding:17px 5px;
- border-radius:15px;
- border:1px solid #263D50;
- transition:.2s;
-}
-.shortcut:active{transform:scale(.95)}
-.shortcut div{font-size:28px}
-.shortcut p{font-size:13px;margin-bottom:0}
-.section{
- max-width:600px;
- margin:25px auto;
- text-align:left;
-}
+.subtitle,.muted{color:var(--muted)}
+.search{display:flex;gap:8px;max-width:600px;margin:25px auto}
+.search button{background:var(--cyan);color:#080D14;width:auto;padding:0 18px;font-weight:bold}
+.shortcuts{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:25px auto}
+.shortcut{width:88px;background:var(--panel);border:1px solid #294459;border-radius:14px;padding:15px 5px;text-decoration:none;color:white}
+.shortcut div{font-size:26px}
+.shortcut p{font-size:12px}
+.section{max-width:750px;margin:30px auto}
 .section h3{color:var(--cyan)}
-.item{
- background:var(--dark);
- padding:13px;
- border-radius:12px;
- margin:8px 0;
- overflow-wrap:anywhere;
- border:1px solid #1d3448;
-}
-.item a{
- color:var(--white);
- text-decoration:none;
- font-size:13px;
-}
-.item button{
- float:right;
- width:30px;
- height:30px;
-}
-.note{
- color:var(--muted);
- font-size:12px;
- line-height:1.6;
-}
-.result{
- background:var(--dark);
- padding:18px;
- border-radius:15px;
- margin:10px auto;
- max-width:700px;
- overflow-wrap:anywhere;
- border:1px solid #1d3448;
-}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.game{background:var(--panel);border:1px solid #294459;border-radius:15px;overflow:hidden;cursor:pointer}
+.game-art{height:105px;display:grid;place-items:center;font-size:48px;background:linear-gradient(135deg,#102536,#16455b)}
+.game-info{padding:12px;text-align:left}
+.game-info b{font-size:14px}
+.game-info p{font-size:12px;color:var(--muted);margin:6px 0}
+.play{background:var(--cyan);color:#06111a;border:0;border-radius:9px;width:100%;height:34px;font-weight:bold}
+.online{display:block;text-decoration:none;color:white;background:var(--panel);padding:14px;border-radius:12px;margin:9px 0;border:1px solid #294459}
+.online span{color:var(--cyan)}
+#gameScreen{text-align:center}
+canvas{background:#101e2b;border:1px solid var(--cyan);border-radius:12px;width:100%;max-width:600px;display:block;margin:15px auto;touch-action:none}
+.gameControls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:15px}
+.gameControls button{border-radius:12px;width:auto;padding:10px 18px}
+.result{background:var(--panel);padding:15px;border-radius:13px;overflow-wrap:anywhere}
 .result a{color:var(--cyan)}
-iframe{
- width:100%;
- height:65vh;
- border:1px solid #263D50;
- border-radius:12px;
- background:white;
- margin-top:10px;
-}
-.bottom{
- display:flex;
- justify-content:center;
- gap:12px;
- flex-wrap:wrap;
- margin-top:25px;
-}
-.bottom button{
- width:auto;
- height:auto;
- border-radius:12px;
- padding:12px 17px;
- font-size:13px;
-}
-footer{
- text-align:center;
- color:var(--muted);
- font-size:12px;
- padding:20px;
- border-top:1px solid #173448;
-}
+iframe{width:100%;height:65vh;border:0;background:white;border-radius:12px;margin-top:12px}
+.item{background:var(--panel);padding:12px;margin:8px 0;border-radius:10px;overflow-wrap:anywhere}
+.item a{color:var(--cyan)}
+.item button{float:right;width:30px;height:30px}
+footer{text-align:center;color:var(--muted);padding:20px;font-size:12px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
-
 <body>
+
 <header>
- <div class="brand">
-  <div class="logo">🐱</div>
-  <div>Mili <span>Browser</span></div>
- </div>
-
- <div class="tabs" id="tabs"></div>
-
- <div class="controls">
-  <button onclick="back()" title="Voltar">‹</button>
-  <button onclick="forward()" title="Avançar">›</button>
-  <button onclick="reloadPage()" title="Atualizar">↻</button>
-  <input id="address"
-   placeholder="Pesquisar ou digitar endereço"
-   onkeydown="if(event.key==='Enter')navigate(this.value)">
-  <button onclick="newTab()" title="Nova aba">＋</button>
-  <button onclick="bookmark()" title="Favoritar">☆</button>
- </div>
+<div class="brand"><div class="logo">🐱</div><div>Mili <span>Browser</span></div></div>
+<div class="tabs" id="tabs"></div>
+<div class="controls">
+<button onclick="back()">‹</button>
+<button onclick="forward()">›</button>
+<button onclick="reloadPage()">↻</button>
+<input id="address" placeholder="Pesquisar ou digitar endereço" onkeydown="if(event.key==='Enter')navigate(this.value)">
+<button onclick="newTab()">＋</button>
+<button onclick="bookmark()">☆</button>
+</div>
 </header>
 
 <main id="page"></main>
-
-<footer>
- 🐱 Mili Browser · Preto • Cyan • Branco
-</footer>
+<footer>🐱 Mili Browser · Explore. Jogue. Descubra.</footer>
 
 <script>
 const $=id=>document.getElementById(id);
-
-let tabs=[{
- title:"Início",url:"",history:[],pos:-1
-}];
-
+let tabs=[{title:"Início",url:"",history:[],pos:-1}];
 let active=0;
-let favorites=[];
-let visits=[];
-
-try{
- favorites=JSON.parse(localStorage.getItem("miliFav")||"[]");
- visits=JSON.parse(localStorage.getItem("miliHistory")||"[]");
-}catch(e){}
+let favorites=JSON.parse(localStorage.getItem("miliFav")||"[]");
+let visits=JSON.parse(localStorage.getItem("miliHistory")||"[]");
+let gameTimer=null,gameState=null;
 
 function renderTabs(){
- $("tabs").innerHTML="";
-
- tabs.forEach((t,i)=>{
-  let el=document.createElement("div");
-  el.className="tab"+(i===active?" active":"");
-  el.textContent=t.title;
-
-  let close=document.createElement("button");
-  close.textContent="×";
-  close.onclick=e=>{
-   e.stopPropagation();
-   closeTab(i);
-  };
-
-  el.onclick=()=>switchTab(i);
-  el.appendChild(close);
-  $("tabs").appendChild(el);
- });
+$("tabs").innerHTML="";
+tabs.forEach((t,i)=>{
+let el=document.createElement("div");
+el.className="tab"+(i===active?" active":"");
+el.textContent=t.title;
+let close=document.createElement("button");
+close.textContent=" ×";
+close.onclick=e=>{e.stopPropagation();closeTab(i)};
+el.appendChild(close);
+el.onclick=()=>switchTab(i);
+$("tabs").appendChild(el);
+});
 }
-
 function newTab(){
- tabs.push({
-  title:"Nova aba",
-  url:"",
-  history:[],
-  pos:-1
- });
- active=tabs.length-1;
- renderTabs();
- home();
+tabs.push({title:"Nova aba",url:"",history:[],pos:-1});
+active=tabs.length-1;renderTabs();home();
 }
-
-function switchTab(i){
- active=i;
- renderTabs();
- showCurrent();
-}
-
+function switchTab(i){stopGame();active=i;renderTabs();showCurrent()}
 function closeTab(i){
- tabs.splice(i,1);
-
- if(!tabs.length){
-  tabs.push({
-   title:"Início",url:"",history:[],pos:-1
-  });
- }
-
- active=Math.min(active,tabs.length-1);
- renderTabs();
- showCurrent();
+if(i===active)stopGame();
+tabs.splice(i,1);
+if(!tabs.length)tabs.push({title:"Início",url:"",history:[],pos:-1});
+active=Math.min(active,tabs.length-1);renderTabs();showCurrent();
+}
+function save(){
+localStorage.setItem("miliFav",JSON.stringify(favorites));
+localStorage.setItem("miliHistory",JSON.stringify(visits));
 }
 
 function home(){
- $("address").value="";
+stopGame();
+$("address").value="";
+$("page").innerHTML=`
+<div class="home">
+<div class="cat">🐱</div>
+<h1>Mili <span>Browser</span></h1>
+<p class="subtitle">Seu mundo. Sua internet.</p>
+<div class="search">
+<input id="homeSearch" placeholder="O que deseja pesquisar?" onkeydown="if(event.key==='Enter')navigate(this.value)">
+<button onclick="navigate($('homeSearch').value)">Pesquisar</button>
+</div>
+<div class="shortcuts">
+<a class="shortcut" href="https://google.com" target="_blank"><div>🔎</div><p>Google</p></a>
+<a class="shortcut" href="https://youtube.com" target="_blank"><div>▶️</div><p>YouTube</p></a>
+<a class="shortcut" href="https://wikipedia.org" target="_blank"><div>📚</div><p>Wikipedia</p></a>
+</div>
 
- $("page").innerHTML=`
- <div class="home">
-  <div class="cat">🐱</div>
-  <h1>Mili <span>Browser</span></h1>
-  <p class="subtitle">Seu mundo. Sua internet.</p>
+<div class="section">
+<h3>🎮 Mili Games</h3>
+<div class="grid">
+<div class="game" onclick="snake()">
+<div class="game-art">🐍</div><div class="game-info"><b>Snake</b><p>Coma e cresça!</p><button class="play">JOGAR</button></div>
+</div>
+<div class="game" onclick="memory()">
+<div class="game-art">🧠</div><div class="game-info"><b>Memória</b><p>Encontre os pares.</p><button class="play">JOGAR</button></div>
+</div>
+<div class="game" onclick="clickGame()">
+<div class="game-art">⚡</div><div class="game-info"><b>Click Rush</b><p>Teste sua velocidade.</p><button class="play">JOGAR</button></div>
+</div>
+<div class="game" onclick="guessGame()">
+<div class="game-art">🔢</div><div class="game-info"><b>Adivinhe</b><p>Descubra o número.</p><button class="play">JOGAR</button></div>
+</div>
+<div class="game" onclick="rps()">
+<div class="game-art">✊</div><div class="game-info"><b>Pedra, Papel e Tesoura</b><p>Desafie o computador.</p><button class="play">JOGAR</button></div>
+</div>
+</div>
+</div>
 
-  <div class="search">
-   <input id="homeSearch"
-    placeholder="O que deseja pesquisar?"
-    onkeydown="if(event.key==='Enter')navigate(this.value)">
-   <button onclick="navigate($('homeSearch').value)">
-    Pesquisar
-   </button>
-  </div>
+<div class="section">
+<h3>🌐 Jogos online</h3>
+<a class="online" href="https://poki.com/" target="_blank">🎮 Poki <span>↗</span><br><small class="muted">Jogos variados</small></a>
+<a class="online" href="https://www.crazygames.com/" target="_blank">🕹️ CrazyGames <span>↗</span><br><small class="muted">Jogos de navegador</small></a>
+<a class="online" href="https://itch.io/games" target="_blank">👾 itch.io <span>↗</span><br><small class="muted">Jogos independentes</small></a>
+</div>
 
-  <div class="shortcuts">
-   <a class="shortcut"
-    href="https://www.google.com/" target="_blank" rel="noopener">
-    <div>🔎</div><p>Google</p>
-   </a>
-
-   <a class="shortcut"
-    href="https://www.youtube.com/" target="_blank" rel="noopener">
-    <div>▶️</div><p>YouTube</p>
-   </a>
-
-   <a class="shortcut"
-    href="https://www.wikipedia.org/" target="_blank" rel="noopener">
-    <div>📚</div><p>Wikipedia</p>
-   </a>
-  </div>
-
-  <div class="section">
-   <h3>⭐ Favoritos</h3>
-   <div id="favorites"></div>
-  </div>
-
-  <div class="section">
-   <h3>🕘 Histórico recente</h3>
-   <div id="history"></div>
-  </div>
-
-  <div class="bottom">
-   <button onclick="clearHistory()">🗑 Limpar histórico</button>
-  </div>
-
-  <p class="note">
-   Mili Browser 🐱<br>
-   Navegue, descubra e explore.
-  </p>
- </div>`;
-
- renderFavorites();
- renderHistory();
+<div class="section"><h3>⭐ Favoritos</h3><div id="favList"></div></div>
+<div class="section"><h3>🕘 Histórico</h3><div id="histList"></div><button onclick="clearHistory()" style="width:auto;border-radius:10px;padding:8px 14px">Limpar histórico</button></div>
+</div>`;
+renderFavorites();renderHistory();
 }
 
 function navigate(value,record=true){
- value=value.trim();
- if(!value)return;
-
- let url;
-
- if(/^https?:\/\//i.test(value)){
-  url=value;
- }else if(/^[^\s]+\.[^\s]+$/.test(value)){
-  url="https://"+value;
- }else{
-  url="https://www.google.com/search?q="+
-  encodeURIComponent(value);
- }
-
- try{
-  if(!["http:","https:"].includes(new URL(url).protocol)){
-   return;
-  }
- }catch(e){return;}
-
- let t=tabs[active];
-
- if(record){
-  t.history=t.history.slice(0,t.pos+1);
-  t.history.push(url);
-  t.pos=t.history.length-1;
-
-  visits.unshift(url);
-  visits=[...new Set(visits)].slice(0,30);
-  save();
- }
-
- t.url=url;
- t.title=value.length>15?
- value.slice(0,15)+"…":value;
-
- renderTabs();
- showPage(url);
+value=value.trim();if(!value)return;
+let url;
+if(/^https?:\/\//i.test(value))url=value;
+else if(/^[^\s]+\.[^\s]+$/.test(value))url="https://"+value;
+else url="https://www.google.com/search?q="+encodeURIComponent(value);
+try{if(!["http:","https:"].includes(new URL(url).protocol))return}catch(e){return}
+stopGame();
+let t=tabs[active];
+if(record){
+t.history=t.history.slice(0,t.pos+1);
+t.history.push(url);t.pos=t.history.length-1;
+visits.unshift(url);visits=[...new Set(visits)].slice(0,30);save();
 }
-
+t.url=url;t.title=value.slice(0,16);
+renderTabs();showPage(url);
+}
 function showPage(url){
- $("address").value=url;
-
- $("page").innerHTML=`
- <div class="result">
-  <h3>🌐 Mili Browser</h3>
-  <p id="current"></p>
-  <a id="external" target="_blank"
-   rel="noopener noreferrer">
-   Abrir site em nova aba ↗
-  </a>
-  <p class="note">
-   Se o site não carregar, ele pode bloquear
-   a exibição dentro de outros sites.
-   Use o link acima.
-  </p>
- </div>
-
- <iframe title="Página da internet"
-  referrerpolicy="no-referrer"></iframe>`;
-
- $("current").textContent=url;
- $("external").href=url;
- $("page").querySelector("iframe").src=url;
+$("address").value=url;
+$("page").innerHTML=`<div class="result"><b>🌐 Página</b><p id="current"></p><a id="external" target="_blank" rel="noopener">Abrir em nova aba ↗</a><p class="muted">Alguns sites bloqueiam a exibição dentro de outros sites. Use o link para abri-los.</p></div><iframe title="Site" referrerpolicy="no-referrer"></iframe>`;
+$("current").textContent=url;$("external").href=url;
+$("page").querySelector("iframe").src=url;
 }
-
-function showCurrent(){
- let t=tabs[active];
- if(t.url)showPage(t.url);
- else home();
-}
-
-function back(){
- let t=tabs[active];
-
- if(t.pos>0){
-  t.pos--;
-  t.url=t.history[t.pos];
-  showPage(t.url);
- }
-}
-
-function forward(){
- let t=tabs[active];
-
- if(t.pos<t.history.length-1){
-  t.pos++;
-  t.url=t.history[t.pos];
-  showPage(t.url);
- }
-}
-
-function reloadPage(){
- let t=tabs[active];
- if(t.url){
-  showPage(t.url);
- }else{
-  home();
- }
-}
-
-function save(){
- try{
-  localStorage.setItem("miliFav",JSON.stringify(favorites));
-  localStorage.setItem("miliHistory",JSON.stringify(visits));
- }catch(e){}
-}
-
+function showCurrent(){let t=tabs[active];if(t.url)showPage(t.url);else home()}
+function back(){let t=tabs[active];if(t.pos>0){t.pos--;t.url=t.history[t.pos];showPage(t.url)}}
+function forward(){let t=tabs[active];if(t.pos<t.history.length-1){t.pos++;t.url=t.history[t.pos];showPage(t.url)}}
+function reloadPage(){showCurrent()}
 function bookmark(){
- let url=tabs[active].url;
-
- if(!url){
-  alert("Abra um site primeiro!");
-  return;
- }
-
- if(!favorites.includes(url)){
-  favorites.unshift(url);
-  save();
- }
-
- alert("⭐ Favorito salvo!");
+let u=tabs[active].url;if(!u)return alert("Abra um site primeiro!");
+if(!favorites.includes(u))favorites.unshift(u);
+save();alert("Favorito salvo!");
 }
-
 function renderFavorites(){
- let box=$("favorites");
- if(!box)return;
-
- box.innerHTML="";
-
- if(!favorites.length){
-  box.textContent="Nenhum favorito ainda.";
-  return;
- }
-
- favorites.forEach(url=>{
-  let item=document.createElement("div");
-  item.className="item";
-
-  let link=document.createElement("a");
-  link.textContent="⭐ "+url;
-  link.href=url;
-  link.target="_blank";
-  link.rel="noopener noreferrer";
-
-  let remove=document.createElement("button");
-  remove.textContent="×";
-
-  remove.onclick=()=>{
-   favorites=favorites.filter(x=>x!==url);
-   save();
-   renderFavorites();
-  };
-
-  item.append(link,remove);
-  box.appendChild(item);
- });
+let b=$("favList");if(!b)return;b.innerHTML="";
+if(!favorites.length){b.textContent="Nenhum favorito.";return}
+favorites.forEach(u=>{
+let d=document.createElement("div");d.className="item";
+let a=document.createElement("a");a.href=u;a.textContent="⭐ "+u;a.target="_blank";
+let x=document.createElement("button");x.textContent="×";
+x.onclick=()=>{favorites=favorites.filter(v=>v!==u);save();renderFavorites()};
+d.append(a,x);b.append(d);
+});
 }
-
 function renderHistory(){
- let box=$("history");
- if(!box)return;
+let b=$("histList");if(!b)return;b.innerHTML="";
+visits.slice(0,5).forEach(u=>{
+let d=document.createElement("div");d.className="item";
+let a=document.createElement("a");a.href=u;a.textContent=u;a.target="_blank";
+d.append(a);b.append(d);
+});
+}
+function clearHistory(){visits=[];save();renderHistory()}
 
- box.innerHTML="";
+function stopGame(){
+if(gameTimer)clearInterval(gameTimer);
+gameTimer=null;gameState=null;
+}
+function gamePage(title,description){
+stopGame();
+$("address").value="";
+$("page").innerHTML=`
+<div id="gameScreen">
+<button onclick="home()" style="width:auto;border-radius:10px;padding:8px 15px">← Voltar ao início</button>
+<h2 style="color:var(--cyan)">${title}</h2>
+<p class="muted">${description}</p>
+<div id="gameArea"></div>
+<div id="gameStatus" style="color:var(--cyan);margin:12px"></div>
+</div>`;
+tabs[active].title=title.slice(0,14);renderTabs();
+}
+function status(s){$("gameStatus").textContent=s}
 
- if(!visits.length){
-  box.textContent="Nenhum site visitado ainda.";
-  return;
- }
+// SNAKE
+function snake(){
+gamePage("🐍 Snake","Use as setas ou os controles para mover.");
+$("gameArea").innerHTML=`
+<canvas id="board" width="320" height="320"></canvas>
+<div class="gameControls">
+<button onclick="snakeMove(0,-1)">↑</button>
+<button onclick="snakeMove(-1,0)">←</button>
+<button onclick="snakeMove(0,1)">↓</button>
+<button onclick="snakeMove(1,0)">→</button>
+<button onclick="startSnake()">Reiniciar</button>
+</div>`;
+startSnake();
+}
+function startSnake(){
+if(gameTimer)clearInterval(gameTimer);
+let c=$("board"),ctx=c.getContext("2d");
+gameState={snake:[{x:8,y:8},{x:7,y:8},{x:6,y:8}],dir:{x:1,y:0},food:{x:13,y:8},score:0};
+function draw(){
+if(!gameState)return;
+let s=gameState;
+let head={x:s.snake[0].x+s.dir.x,y:s.snake[0].y+s.dir.y};
+if(head.x<0||head.y<0||head.x>=16||head.y>=16||s.snake.some(p=>p.x===head.x&&p.y===head.y)){
+stopGame();status("Fim de jogo! Pontuação: "+s.score);return;
+}
+s.snake.unshift(head);
+if(head.x===s.food.x&&head.y===s.food.y){
+s.score++;s.food={x:Math.floor(Math.random()*16),y:Math.floor(Math.random()*16)};
+}else s.snake.pop();
+ctx.fillStyle="#101e2b";ctx.fillRect(0,0,320,320);
+ctx.fillStyle="#00D9FF";
+s.snake.forEach(p=>ctx.fillRect(p.x*20+1,p.y*20+1,18,18));
+ctx.fillStyle="#fff";ctx.font="20px Arial";ctx.fillText("●",s.food.x*20,s.food.y*20+18);
+status("Pontos: "+s.score);
+}
+gameTimer=setInterval(draw,160);
+}
+function snakeMove(x,y){
+if(!gameState)return;
+if(x!==-gameState.dir.x||y!==-gameState.dir.y)gameState.dir={x,y};
+}
+document.addEventListener("keydown",e=>{
+if(!gameState)return;
+let dirs={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]};
+if(dirs[e.key]){e.preventDefault();snakeMove(...dirs[e.key])}
+});
 
- visits.slice(0,5).forEach(url=>{
-  let item=document.createElement("div");
-  item.className="item";
-
-  let link=document.createElement("a");
-  link.textContent="🕘 "+url;
-  link.href=url;
-  link.target="_blank";
-  link.rel="noopener noreferrer";
-
-  item.appendChild(link);
-  box.appendChild(item);
- });
+// MEMORY
+function memory(){
+gamePage("🧠 Memória","Encontre todos os pares de símbolos.");
+let symbols=["🐱","🚀","⭐","🎮","🌙","⚡","🐶","🍕"];
+let cards=[...symbols,...symbols].sort(()=>Math.random()-.5);
+let first=null,lock=false,found=0,moves=0;
+$("gameArea").innerHTML=`<div id="memoryGrid" class="grid" style="max-width:400px;margin:auto"></div><button onclick="memory()" style="width:auto;border-radius:10px;padding:10px 18px;margin-top:15px">Reiniciar</button>`;
+let grid=$("memoryGrid");
+cards.forEach((symbol,i)=>{
+let b=document.createElement("button");
+b.style.cssText="width:100%;height:75px;border-radius:12px;font-size:26px";
+b.textContent="?";
+b.onclick=()=>{
+if(lock||b.dataset.done)return;
+b.textContent=symbol;
+if(!first){first={b,symbol};return}
+moves++;
+if(first.symbol===symbol){
+b.dataset.done="1";first.b.dataset.done="1";found+=2;first=null;
+if(found===16)status("🏆 Você venceu em "+moves+" tentativas!");
+}else{
+let old=first;first=null;lock=true;
+setTimeout(()=>{b.textContent="?";old.b.textContent="?";lock=false},650);
+}
+status("Pares: "+found/2+"/8 | Tentativas: "+moves);
+};
+grid.appendChild(b);
+});
+status("Pares: 0/8");
 }
 
-function clearHistory(){
- if(!confirm("Deseja apagar todo o histórico?"))return;
+// CLICK RUSH
+function clickGame(){
+gamePage("⚡ Click Rush","Clique no botão o máximo possível em 10 segundos.");
+$("gameArea").innerHTML=`<h1 id="clickScore">0</h1><button id="clickBtn" style="width:150px;height:150px;font-size:45px;background:var(--cyan);color:#080D14">⚡</button><br><button onclick="startClick()" style="width:auto;border-radius:10px;padding:10px 18px;margin-top:15px">Começar</button>`;
+let score=0,playing=false;
+$("clickBtn").onclick=()=>{if(playing){score++;$("clickScore").textContent=score}};
+window.startClick=()=>{
+score=0;playing=true;$("clickScore").textContent=0;
+status("Tempo: 10 segundos");
+let time=10;
+if(gameTimer)clearInterval(gameTimer);
+gameTimer=setInterval(()=>{
+time--;status("Tempo: "+time+" segundos");
+if(time<=0){clearInterval(gameTimer);gameTimer=null;playing=false;status("Fim! Você fez "+score+" pontos.")};
+},1000);
+};
+}
 
- visits=[];
- save();
- renderHistory();
+// GUESS
+function guessGame(){
+gamePage("🔢 Adivinhe","O computador escolheu um número de 1 a 100.");
+let answer=Math.floor(Math.random()*100)+1,tries=0;
+$("gameArea").innerHTML=`<input id="guessInput" type="number" min="1" max="100" placeholder="Seu palpite" style="max-width:180px"><button onclick="guessTry()" style="width:auto;border-radius:12px;padding:0 15px">Enviar</button><br><button onclick="guessGame()" style="width:auto;border-radius:10px;padding:10px;margin-top:15px">Novo jogo</button>`;
+window.guessTry=()=>{
+let n=Number($("guessInput").value);
+if(!Number.isInteger(n)||n<1||n>100){status("Digite um número de 1 a 100.");return}
+tries++;
+if(n===answer)status("🏆 Acertou em "+tries+" tentativas!");
+else status(n<answer?"Muito baixo! Tente um maior.":"Muito alto! Tente um menor.");
+$("guessInput").value="";
+};
+}
+
+// PEDRA PAPEL TESOURA
+function rps(){
+gamePage("✊ Pedra, papel e tesoura","Escolha sua jogada.");
+$("gameArea").innerHTML=`<div class="gameControls"><button onclick="playRPS('Pedra')">✊ Pedra</button><button onclick="playRPS('Papel')">✋ Papel</button><button onclick="playRPS('Tesoura')">✌️ Tesoura</button></div><h2 id="rpsResult"></h2>`;
+window.playRPS=(choice)=>{
+let opts=["Pedra","Papel","Tesoura"],cpu=opts[Math.floor(Math.random()*3)];
+let result=choice===cpu?"Empate!":(choice==="Pedra"&&cpu==="Tesoura"||choice==="Papel"&&cpu==="Pedra"||choice==="Tesoura"&&cpu==="Papel")?"Você venceu!":"Computador venceu!";
+$("rpsResult").textContent="Você: "+choice+" | PC: "+cpu+" — "+result;
+};
 }
 
 renderTabs();
